@@ -33,6 +33,4 @@ Possible things to find from the data:
 Code needs to be submitted into github.
 
 Other things to do
-* Need to make a Commits object
 * Get the time zone data
-*
