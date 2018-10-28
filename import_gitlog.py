@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # Description     : Importing the Git log file
 # Author          : Barry Sheppard - Student Number 10387786
-# Date            : 20181017
+# Date            : 20181018
 # Version         : 0.3
 # Notes           : For CA4
 # Python version  : 3.6.5
@@ -14,12 +14,13 @@ import pandas as pd
 class Commit(object):
     ''' Used to store git commit logs'''
     def __init__(self, revision, author, date, num_of_lines,
-                 changed_path=[], comment=[]):
+                 changed_path=[], changed_files=[], comment=[]):
         self.revision = revision
         self.author = author
         self.date = date
         self.num_of_lines = num_of_lines
         self.changed_path = changed_path
+        self.changed_files = changed_files
         self.comment = comment
         self.modified = 0
         self.added = 0
@@ -33,11 +34,13 @@ class Commit(object):
 
     def as_dict(self):
         ''' This function returns the object as a dictionary'''
-        return {'Revision': self.revision, 'Author': self.author,
+        return {'Revision': self.revision,
+                'Author': self.author,
                 'Date': self.date,
                 'Number of Lines': self.num_of_lines,
                 'Comment': self.comment,
                 'Changed Path': self.changed_path,
+                'Changed Files': self.changed_files,
                 'Added': self.added,
                 'Modified': self.modified,
                 'Deleted': self.deleted
@@ -83,9 +86,6 @@ class GitLogCommits(object):
                 commit.comment = data[change_file_end_index + 1:
                                       change_file_end_index + 1 +
                                       commit.num_of_lines]
-                # add details of the commit to the list of commits
-                commits.append(commit)
-                index = data.index(sep, index + 1)
                 # Work out the number of files Added, Modified, and Deleted
                 for path in commit.changed_path:
                     path = path.split(' ')
@@ -95,7 +95,15 @@ class GitLogCommits(object):
                         commit.added += 1
                     if path[0] == 'D':
                         commit.deleted += 1
-
+                # Work out the file names split it up based on / and then
+                # take the last item [-1] which should be the file name
+                for path in commit.changed_path:
+                    path = path.split('/')
+                    file_name = path[-1]
+                    commit.changed_files.append(file_name)
+                # add details of the commit to the list of commits
+                commits.append(commit)
+                index = data.index(sep, index + 1)
             except IndexError:
                 index = len(data)
         # object returned is a list of Commit objects
@@ -112,14 +120,14 @@ class GitLogCommits(object):
         # return the data from the file
         return data
 
-    # def save_commits(commits, any_file):
-    #     ''' Saves list of commits into a csv file '''
-    # Opens a file in write mood, wites headings, then writes the commits list
-    #     my_file = open(any_file, 'w')
-    #     my_file.write("revision,author,date,num_of_lines,comment\n")
-    #     for commit in commits:
-    #         my_file.write(str(commit))
-    #     my_file.close()
+    def save_as_csv(self, file_name):
+        ''' Saves list into a csv file '''
+        # Create Pandas object
+        df_to_save = self.convert_to_dataframe()
+        # Paths and Files are too big for CSV and as such are dropped
+        df_to_save = df_to_save.drop(columns=['Changed Path', 'Changed Files'])
+        # Save the data frame as csv file
+        df_to_save.to_csv(file_name)
 
     def convert_to_dataframe(self):
         ''' Takes in a list of commits and returns a dataframe object '''
