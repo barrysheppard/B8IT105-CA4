@@ -134,7 +134,8 @@ def date_heatmap_demo():
 # Everything above this is directly from the code provided
 
 # This custom version was created for the CA
-def custom_heatmap(df, author='the Team'):
+def custom_heatmap(df, author='the Team', color_range=20):
+    ''' The color_range can be adjusted to select an appropriate range '''
     # Filter based on the Author.
     if author != 'the Team':
         df_filtered = df.query('Author=="%s"'% (author))
@@ -148,12 +149,12 @@ def custom_heatmap(df, author='the Team'):
     fig = plt.figure(figsize=figsize)
     # Plot the heatmap with a color bar.
     ax = date_heatmap(df_heatmap, edgecolor='black', start='01/01/2015', end='31/12/2015')
-    plt.colorbar(ticks=range(21), pad=0.2, orientation='horizontal')
+    plt.colorbar(ticks=range(color_range+1), pad=0.2, orientation='horizontal')
     # Use a discrete color map with 5 colors (the data ranges from 0 to 4).
     # Extending the color limits by 0.5 aligns the ticks in the color bar.
-    cmap = mpl.cm.get_cmap('Greens', 20)
+    cmap = mpl.cm.get_cmap('viridis', color_range)
     plt.set_cmap(cmap)
-    plt.clim(-0.5, 21)
+    plt.clim(-0.5, color_range+1)
     # plt.legend(loc=8)
     # Force the cells to be square.
     ax.set_aspect('equal')
