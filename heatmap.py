@@ -1,4 +1,5 @@
 # Code from https://stackoverflow.com/questions/32485907/ by user cbarrick
+# See very end for the custom_heatmap() method which B Sheppard added
 import numpy as np
 import pandas as pd
 import matplotlib as mpl

@@ -15,22 +15,3 @@ Test should be in a separate file runnable from the command line.
 Your statistical analytics conclusions should be in a word document explaining in approximately 500 words the information that you have gleamed from the dataset.
 You will be required to submit your code via github along with all documentation and tests.
 The deadline is the 4th November 2018 on moodle @ 23:55.
-
-## Working Notes
-
-Need 3 statistically interesting pieces of code.
-
-Possible things to find from the data:
-* Cluster Analysis
-* When are people checking in
-* Who is making the most changes
-* Average number of files per change
-* How long is a comment
-* Does the length of a comment increase?
-* Time series analysis
-* Out of office hours?
-
-Code needs to be submitted into github.
-
-Other things to do
-* Get the time zone data
