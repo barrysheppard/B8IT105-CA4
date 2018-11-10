@@ -5,6 +5,13 @@ Assignment for Programming for Big Data Course
 Name: Barry Sheppard
 Student Number: 10387786
 
+## Notes for Grading
+* import_gitlog.py has code for parsing and cleaning
+* test_import_gitlog.py has unittests for import_gitlog.py
+* heatmap.py was 3rd party code with custom addition at eof
+* Analysis.ipynb has the actual analysis along with comments
+
+
 ## Assignment
 Assignment 4 is based on transforming a large dataset in text format - over 5000 lines of text.
 You will need to scrub (clean) the data and place it into the relevant holder/container objects.
